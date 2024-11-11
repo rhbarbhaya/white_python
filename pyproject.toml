@@ -1,0 +1,20 @@
+[project]
+name = "white-paper"
+version = "0.0.1"
+description = "A python library that helps you write white papaer. Currently working on IEEE Format, other formats will be added later"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "jinja2>=3.1.4",
+    "pylatex>=1.4.2",
+]
+
+[dependency-groups]
+dev = [
+    "black>=24.10.0",
+    "ruff>=0.7.3",
+    "uv>=0.5.1",
+]
+
+[tool.ruff]
+line-length = 120
