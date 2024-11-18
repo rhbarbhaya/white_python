@@ -13,11 +13,15 @@ class MathEquation(NamedTuple):
     equation: Math
 
 
+class Verb(NamedTuple):
+    verb: str
+
+
 class MissingItems(Warning):
     pass
 
 
-Content = Union[str | EquationIndex | MathEquation]
+Content = Union[str | EquationIndex | MathEquation | Verb]
 
 
 class Paper:
@@ -115,7 +119,10 @@ class Paper:
         self.doc.append(NoEscape(r"\end{IEEEkeywords}"))
 
     def ref_equation(self, eq_index: int) -> EquationIndex:
-        return EquationIndex(Command('eqref', self._equations[eq_index - 1][0]))
+        return EquationIndex(Command("eqref", self._equations[eq_index - 1][0]))
+
+    def verb(self, verb_string: str) -> Verb:
+        return Verb(verb_string)
 
     def equation(self, equation: str) -> MathEquation | None:
         if equation:
@@ -133,7 +140,7 @@ class Paper:
 
     def content(self, content: Content) -> None:
         if isinstance(content, str):
-            self.doc.append(content)
+            self.doc.append(NoEscape(content))
         elif isinstance(content, Itemize):
             self.doc.append(content)
         elif isinstance(content, MathEquation):
@@ -141,7 +148,11 @@ class Paper:
             self.doc.append(NoEscape(rf"{content.equation.data[0]}\label{{{content.math_index}}}"))
             self.doc.append(NoEscape(r"\end{equation}"))
         elif isinstance(content, EquationIndex):
+            self.doc.append(NoEscape("~"))
             self.doc.append(content.label)
+            self.doc.append(NoEscape("~"))
+        elif isinstance(content, Verb):
+            self.doc.append(NoEscape(rf" \verb|{content.verb}| "))
 
     def heading(self, heading_text: str, *contents: Content) -> None:
         with self.doc.create(Section(heading_text)):

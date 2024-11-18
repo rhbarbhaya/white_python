@@ -1,5 +1,4 @@
 from white_paper import Paper
-from pylatex import NoEscape
 
 paper = Paper(
     "IEEE",
@@ -25,7 +24,7 @@ paper.sub_heading(
     """The IEEEtran class file is used to format your paper and style the text. All margins, column widths, line spaces, and text fonts are prescribed; please do not alter them. You may note peculiarities. For example, the head margin measures proportionately more than is customary. This measurement and others are deliberate, using specifications that anticipate your paper as one part of the entire proceedings, and not as an independent document. Please do not revise any of the current designations.""",
 )
 paper.heading(
-    "PREPARE YOUR PAPER BEFORE STYLING",
+    "Prepare Your Paper Before Styling",
     r"""Before you begin to format your paper, first write and save the content as a separate text file. Complete all content and organizational editing before formatting. Please note sections II-A to II-H below for more information on proofreading, spelling and grammar.
 
     Keep your text and graphic files separate until after the text has been formatted and styled. Do not number text heads \LaTeX will do that for you.""",
@@ -47,18 +46,36 @@ paper.sub_heading(
 )
 paper.sub_heading(
     "Equations",
-    r"""Number equations consecutively. To make your equations more compact, you may use the solidus ( ~/~ ), the exp function, or appropriate exponents. Italicize Roman symbols for quantities and variables, but not Greek symbols. Use a long dash rather than a hyphen for a minus sign. Punctuate equations with commas or periods when they are part of a sentence, as in:""",
+    r"""Number equations consecutively. To make your equations more compact, you may use the solidus ( / ), the exp function, or appropriate exponents. Italicize Roman symbols for quantities and variables, but not Greek symbols. Use a long dash rather than a hyphen for a minus sign. Punctuate equations with commas or periods when they are part of a sentence, as in:""",
     paper.equation(r"a+b=\gamma"),
-    """
-    
-    Be sure that the symbols in your equation have been defined before or immediately following the equation. Use """,
+    """\nBe sure that the symbols in your equation have been defined before or immediately following the equation. Use""",
     paper.ref_equation(1),
-    """not Eq. """,
+    r"""not Eq.""",
     paper.ref_equation(1),
-    """ or equation """,
+    r"""or equation""",
     paper.ref_equation(1),
-    """ except at the beginning of a sentence: ``Equation """,
+    r"""except at the beginning of a sentence: ``Equation""",
     paper.ref_equation(1),
-    """ is . . .''"""
+    r"""is . . .''""",
+)
+paper.sub_heading(
+    r"""\LaTeX-Specific Advice""",
+    r"""Please use ``soft'' (e.g., """,
+    paper.verb(r"\eqref{Eq}"),
+    r""") cross references instead of ``hard'' references (e.g., """,
+    paper.verb(r"(1)"),
+    r"""). That will make it possible to combine sections, add equations, or change the order of figures or citations without having to go through the file line by line.""",
+    "\n", r"""Please don't use the""",
+    paper.verb(r"{eqnarray}"),
+    r"""equation environment. Use""",
+    paper.verb(r"{align}"),
+    r"""or""",
+    paper.verb(r"{IEEEeqnarray}"),
+    r"""instead. The""",
+    paper.verb(r"{eqnarray}"),
+    r"""environment leaves unsightly spaces around relation symbols.""",
+    "\n", r"Please note that the",
+    paper.verb(r"{subequations}"),
+    r"""environment in \LaTeX will increment the main equation counter even when there are no equation numbers displayed. If you forget that, you might write an article in which the equation numbers skip from (17) to (20), causing the copy editors to wonder if you've discovered a new method of counting.""",
 )
 paper.render_pdf("output.pdf")
